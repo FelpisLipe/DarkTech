@@ -23,23 +23,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
 
-    protected static void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,
-                                      float pExperience, int pCookingTime, String pGroup) {
-        oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, pIngredients, pCategory, pResult,
-                pExperience, pCookingTime, pGroup, "_from_smelting");
+    protected static void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> ingredients, RecipeCategory category, ItemLike result,
+                                      float experience, int cookingTime, String group) {
+        oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, ingredients, category, result,
+                experience, cookingTime, group, "_from_smelting");
     }
 
-    protected static void oreBlasting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,
-                                      float pExperience, int pCookingTime, String pGroup) {
-        oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, pIngredients, pCategory, pResult,
-                pExperience, pCookingTime, pGroup, "_from_blasting");
+    protected static void oreBlasting(RecipeOutput recipeOutput, List<ItemLike> ingredients, RecipeCategory category, ItemLike result,
+                                      float experience, int cookingTime, String group) {
+        oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, ingredients, category, result,
+                experience, cookingTime, group, "_from_blasting");
     }
 
-    protected static <T extends AbstractCookingRecipe> void oreCooking(RecipeOutput recipeOutput, RecipeSerializer<T> pCookingSerializer, AbstractCookingRecipe.Factory<T> factory,
-                                                                       List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
-        for(ItemLike itemlike : pIngredients) {
-            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer, factory).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike))
-                    .save(recipeOutput, DarkTech.MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
+    protected static <T extends AbstractCookingRecipe> void oreCooking(RecipeOutput recipeOutput, RecipeSerializer<T> cookingSerializer, AbstractCookingRecipe.Factory<T> factory,
+                                                                       List<ItemLike> ingredients, RecipeCategory category, ItemLike result, float pExperience, int pCookingTime, String group, String recipeName) {
+        for(ItemLike itemlike : ingredients) {
+            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), category, result, pExperience, pCookingTime, cookingSerializer, factory).group(group).unlockedBy(getHasName(itemlike), has(itemlike))
+                    .save(recipeOutput, DarkTech.MOD_ID + ":" + getItemName(result) + recipeName + "_" + getItemName(itemlike));
         }
     }
 }
