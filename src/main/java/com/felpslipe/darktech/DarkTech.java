@@ -1,5 +1,8 @@
 package com.felpslipe.darktech;
 
+import com.felpslipe.darktech.registry.DTBlockEntities;
+import com.felpslipe.darktech.registry.DTBlocks;
+import com.felpslipe.darktech.registry.DTItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -56,6 +59,10 @@ public class DarkTech {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
+        DTBlocks.register(modEventBus);
+        DTBlockEntities.register(modEventBus);
+        DTItems.register(modEventBus);
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -66,6 +73,9 @@ public class DarkTech {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(DTBlocks.PERFORATED_BEDROCK);
+        }
 
     }
 
