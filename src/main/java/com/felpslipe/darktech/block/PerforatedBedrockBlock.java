@@ -50,7 +50,7 @@ public class PerforatedBedrockBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if(!level.isClientSide()) {
+        if(level.isClientSide()) {
             return null;
         }
 

@@ -64,6 +64,9 @@ public class PerforatedBedrockBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         pushFluidToAboveNeighbor();
+        if(!getFluid().isEmpty() && level.isEmptyBlock(pos.above())) {
+            this.FLUID_TANK.drain(1, IFluidHandler.FluidAction.EXECUTE);
+        }
     }
 
     private void pushFluidToAboveNeighbor() {
