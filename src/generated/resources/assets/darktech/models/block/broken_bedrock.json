@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "darktech:block/perforated_bedrock"
+    "all": "darktech:block/broken_bedrock"
   }
 }

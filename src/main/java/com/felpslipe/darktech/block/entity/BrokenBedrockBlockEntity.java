@@ -18,7 +18,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 
-public class PerforatedBedrockBlockEntity extends BlockEntity {
+public class BrokenBedrockBlockEntity extends BlockEntity {
 
     /*
     TODO: spilling when uncovered
@@ -45,8 +45,8 @@ public class PerforatedBedrockBlockEntity extends BlockEntity {
 
 
 
-    public PerforatedBedrockBlockEntity(BlockPos pos, BlockState blockState) {
-        super(DTBlockEntities.PERFORATED_BEDROCK_BE.get(), pos, blockState);
+    public BrokenBedrockBlockEntity(BlockPos pos, BlockState blockState) {
+        super(DTBlockEntities.BROKEN_BEDROCK_BE.get(), pos, blockState);
     }
 
     public FluidStack getFluid() {

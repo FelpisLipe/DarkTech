@@ -1,7 +1,7 @@
 package com.felpslipe.darktech.registry;
 
 import com.felpslipe.darktech.DarkTech;
-import com.felpslipe.darktech.block.PerforatedBedrockBlock;
+import com.felpslipe.darktech.block.BrokenBedrockBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 public class DTBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(DarkTech.MOD_ID);
 
-    public static final DeferredBlock<Block> PERFORATED_BEDROCK = registerBlock("perforated_bedrock",
-            () -> new PerforatedBedrockBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<Block> BROKEN_BEDROCK = registerBlock("broken_bedrock",
+            () -> new BrokenBedrockBlock(BlockBehaviour.Properties.of()
                     .strength(-1)
                     .sound(SoundType.STONE)));
 

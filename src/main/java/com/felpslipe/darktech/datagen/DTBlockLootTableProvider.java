@@ -25,7 +25,7 @@ public class DTBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(DTBlocks.PERFORATED_BEDROCK.get());
+        dropSelf(DTBlocks.BROKEN_BEDROCK.get());
 
     }
 

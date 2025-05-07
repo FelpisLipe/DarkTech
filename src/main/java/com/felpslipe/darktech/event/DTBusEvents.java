@@ -1,7 +1,7 @@
 package com.felpslipe.darktech.event;
 
 import com.felpslipe.darktech.DarkTech;
-import com.felpslipe.darktech.block.entity.PerforatedBedrockBlockEntity;
+import com.felpslipe.darktech.block.entity.BrokenBedrockBlockEntity;
 import com.felpslipe.darktech.registry.DTBlockEntities;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,7 +12,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 public class DTBusEvents {
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, DTBlockEntities.PERFORATED_BEDROCK_BE.get(), PerforatedBedrockBlockEntity::getTank);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, DTBlockEntities.BROKEN_BEDROCK_BE.get(), BrokenBedrockBlockEntity::getTank);
     }
 
 }

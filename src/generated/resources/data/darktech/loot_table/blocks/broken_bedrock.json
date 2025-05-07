@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "darktech:perforated_bedrock"
+          "name": "darktech:broken_bedrock"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "darktech:blocks/perforated_bedrock"
+  "random_sequence": "darktech:blocks/broken_bedrock"
 }

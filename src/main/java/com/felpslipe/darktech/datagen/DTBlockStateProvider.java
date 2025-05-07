@@ -15,7 +15,7 @@ public class DTBlockStateProvider extends BlockStateProvider {
         // Block shit
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(DTBlocks.PERFORATED_BEDROCK);
+        blockWithItem(DTBlocks.BROKEN_BEDROCK);
     }
 
 
