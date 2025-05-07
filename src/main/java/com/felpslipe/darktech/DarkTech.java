@@ -1,8 +1,11 @@
 package com.felpslipe.darktech;
 
+import com.felpslipe.darktech.particle.VoidGasParticles;
 import com.felpslipe.darktech.registry.DTBlockEntities;
 import com.felpslipe.darktech.registry.DTBlocks;
 import com.felpslipe.darktech.registry.DTItems;
+import com.felpslipe.darktech.registry.DTParticles;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -46,6 +49,7 @@ public class DarkTech {
         DTBlocks.register(modEventBus);
         DTBlockEntities.register(modEventBus);
         DTItems.register(modEventBus);
+        DTParticles.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -75,6 +79,11 @@ public class DarkTech {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(DTParticles.VOID_GAS_PARTICLES.get(), VoidGasParticles.Provider::new);
         }
     }
 }

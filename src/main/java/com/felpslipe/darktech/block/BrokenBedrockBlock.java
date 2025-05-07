@@ -2,8 +2,13 @@ package com.felpslipe.darktech.block;
 
 import com.felpslipe.darktech.block.entity.BrokenBedrockBlockEntity;
 import com.felpslipe.darktech.registry.DTBlockEntities;
+import com.felpslipe.darktech.registry.DTParticles;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -41,10 +46,31 @@ public class BrokenBedrockBlock extends BaseEntityBlock {
         if(!level.isClientSide()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if(blockEntity instanceof BrokenBedrockBlockEntity brokenBedrockBlockEntity) {
-                brokenBedrockBlockEntity.getFTank().fill(new FluidStack(Fluids.WATER, 64000), IFluidHandler.FluidAction.EXECUTE);
+                brokenBedrockBlockEntity.getTank(null).fill(new FluidStack(Fluids.WATER, 64000), IFluidHandler.FluidAction.EXECUTE);
             }
         }
     }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if(blockEntity instanceof BrokenBedrockBlockEntity brokenBedrockBlockEntity) {
+            if(!brokenBedrockBlockEntity.getFluid().isEmpty() && level.isEmptyBlock(pos.above())) {
+                    level.playLocalSound((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5,
+                            SoundEvents.WEATHER_RAIN, SoundSource.BLOCKS, random.nextFloat() * 0.25F + 0.25F, 2F, false);
+                level.addParticle(
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.5, 1.0, 0.0);
+                level.addParticle(
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, -0.5, 1.0, 0.0);
+                level.addParticle(
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.0, 1.0, 0.5);
+                level.addParticle(
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.5, 1.0, -0.5);
+
+            }
+        }
+    }
+
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {

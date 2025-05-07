@@ -4,12 +4,17 @@ import com.felpslipe.darktech.registry.DTBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -20,10 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BrokenBedrockBlockEntity extends BlockEntity {
 
-    /*
-    TODO: spilling when uncovered
-          particle indicator
-     */
+
     private final FluidTank FLUID_TANK = createFluidTank();
 
     private FluidTank createFluidTank() {
@@ -57,17 +59,16 @@ public class BrokenBedrockBlockEntity extends BlockEntity {
         return FLUID_TANK;
     }
 
-
-    public FluidTank getFTank() {
-        return FLUID_TANK;
-    }
-
     public void tick(Level level, BlockPos pos, BlockState state) {
         pushFluidToAboveNeighbor();
         if(!getFluid().isEmpty() && level.isEmptyBlock(pos.above())) {
-            this.FLUID_TANK.drain(1, IFluidHandler.FluidAction.EXECUTE);
+            this.FLUID_TANK.drain(10, IFluidHandler.FluidAction.EXECUTE);
+        }
+        if(getFluid().isEmpty()) {
+            level.setBlock(pos, Blocks.BEDROCK.defaultBlockState(), 3);
         }
     }
+
 
     private void pushFluidToAboveNeighbor() {
         FluidUtil.getFluidHandler(level, worldPosition.above(), null).ifPresent(iFluidHandler -> {
