@@ -1,3 +1,7 @@
 {
-  "block.darktech.broken_bedrock": "Broken Bedrock"
+  "block.darktech.broken_bedrock": "Broken Bedrock",
+  "block.darktech.void_gas_block": "Void Gas",
+  "fluid_type.darktech.void_gas_fluid": "Void Gas",
+
+  "item.darktech.void_gas_bucket": "Void Gas Bucket"
 }

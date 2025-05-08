@@ -1,11 +1,12 @@
 package com.felpslipe.darktech;
 
+import com.felpslipe.darktech.fluid.BaseFluidType;
 import com.felpslipe.darktech.particle.VoidGasParticles;
-import com.felpslipe.darktech.registry.DTBlockEntities;
-import com.felpslipe.darktech.registry.DTBlocks;
-import com.felpslipe.darktech.registry.DTItems;
-import com.felpslipe.darktech.registry.DTParticles;
+import com.felpslipe.darktech.registry.*;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -50,6 +51,8 @@ public class DarkTech {
         DTBlockEntities.register(modEventBus);
         DTItems.register(modEventBus);
         DTParticles.register(modEventBus);
+        DTFluids.register(modEventBus);
+        DTFluidTypes.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -63,6 +66,7 @@ public class DarkTech {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(DTBlocks.BROKEN_BEDROCK);
+            event.accept(DTFluids.VOID_GAS_BUCKET);
         }
 
     }
@@ -78,12 +82,22 @@ public class DarkTech {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(() -> {
+                ItemBlockRenderTypes.setRenderLayer(DTFluids.VOID_GAS.get(), RenderType.solid());
+                ItemBlockRenderTypes.setRenderLayer(DTFluids.FLOWING_VOID_GAS.get(), RenderType.solid());
+            });
 
         }
 
         @SubscribeEvent
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(DTParticles.VOID_GAS_PARTICLES.get(), VoidGasParticles.Provider::new);
+        }
+
+        @SubscribeEvent
+        public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+            event.registerFluidType(((BaseFluidType) DTFluidTypes.VOID_GAS_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    DTFluidTypes.VOID_GAS_FLUID_TYPE.get());
         }
     }
 }

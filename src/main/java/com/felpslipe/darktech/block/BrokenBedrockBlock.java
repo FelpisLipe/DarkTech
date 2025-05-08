@@ -2,6 +2,7 @@ package com.felpslipe.darktech.block;
 
 import com.felpslipe.darktech.block.entity.BrokenBedrockBlockEntity;
 import com.felpslipe.darktech.registry.DTBlockEntities;
+import com.felpslipe.darktech.registry.DTFluids;
 import com.felpslipe.darktech.registry.DTParticles;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -46,7 +47,7 @@ public class BrokenBedrockBlock extends BaseEntityBlock {
         if(!level.isClientSide()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if(blockEntity instanceof BrokenBedrockBlockEntity brokenBedrockBlockEntity) {
-                brokenBedrockBlockEntity.getTank(null).fill(new FluidStack(Fluids.WATER, 64000), IFluidHandler.FluidAction.EXECUTE);
+                brokenBedrockBlockEntity.getTank(null).fill(new FluidStack(DTFluids.VOID_GAS.get(), 64000), IFluidHandler.FluidAction.EXECUTE);
             }
         }
     }

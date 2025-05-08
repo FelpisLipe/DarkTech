@@ -33,12 +33,12 @@ public class DataGenerators {
         BlockTagsProvider blockTagsProvider = new DTBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
         // generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
-        // generator.addProvider(event.includeServer(), new ModFluidTagProvider(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DTFluidTagProvider(packOutput, lookupProvider, existingFileHelper));
 
         //generator.addProvider(event.includeServer(), new ModDataMapProvider(packOutput, lookupProvider));
         //generator.addProvider(event.includeServer(), new ModDatapackProvider(packOutput, lookupProvider));
 
-        //generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new DTItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new DTBlockStateProvider(packOutput, existingFileHelper));
 
     }
