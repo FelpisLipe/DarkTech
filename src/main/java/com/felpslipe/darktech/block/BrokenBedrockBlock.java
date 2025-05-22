@@ -6,7 +6,6 @@ import com.felpslipe.darktech.registry.DTFluids;
 import com.felpslipe.darktech.registry.DTParticles;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
@@ -52,23 +50,20 @@ public class BrokenBedrockBlock extends BaseEntityBlock {
         }
     }
 
-    @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void doAnimate(BlockState state, Level level, BlockPos pos, RandomSource random) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(blockEntity instanceof BrokenBedrockBlockEntity brokenBedrockBlockEntity) {
-            if(!brokenBedrockBlockEntity.getFluid().isEmpty() && level.isEmptyBlock(pos.above())) {
-                    level.playLocalSound((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5,
-                            SoundEvents.WEATHER_RAIN, SoundSource.BLOCKS, random.nextFloat() * 0.25F + 0.25F, 2F, false);
+        if(blockEntity instanceof BrokenBedrockBlockEntity brokenBedrockBlockEntity && brokenBedrockBlockEntity.canSpill()) {
+                level.playLocalSound((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5,
+                        SoundEvents.WEATHER_RAIN, SoundSource.BLOCKS, random.nextFloat() * 0.25F + 0.25F, 2F, false);
                 level.addParticle(
-                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.5, 1.0, 0.0);
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1, (double)pos.getZ() + 0.5, 0.5, 1.0, 0.0);
                 level.addParticle(
-                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, -0.5, 1.0, 0.0);
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1, (double)pos.getZ() + 0.5, -0.5, 1.0, 0.0);
                 level.addParticle(
-                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.0, 1.0, 0.5);
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1, (double)pos.getZ() + 0.5, 0.0, 1.0, 0.5);
                 level.addParticle(
-                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 0.5, 1.0, -0.5);
+                        DTParticles.VOID_GAS_PARTICLES.get(), (double)pos.getX() + 0.5, (double)pos.getY() + 1, (double)pos.getZ() + 0.5, 0.5, 1.0, -0.5);
 
-            }
         }
     }
 
@@ -76,7 +71,9 @@ public class BrokenBedrockBlock extends BaseEntityBlock {
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         if(level.isClientSide()) {
-            return null;
+            RandomSource randomSource = RandomSource.create();
+            return createTickerHelper(blockEntityType, DTBlockEntities.BROKEN_BEDROCK_BE.get(),
+                    (level1, pos, state1, brokenBedrockBlockEntity) -> doAnimate(state1, level1, pos, randomSource));
         }
 
         return createTickerHelper(blockEntityType, DTBlockEntities.BROKEN_BEDROCK_BE.get(),

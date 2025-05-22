@@ -12,13 +12,12 @@ public class VoidGasParticles extends TextureSheetParticle {
 
         this.lifetime = 20;
         this.setSpriteFromAge(spriteSet);
-        this.setSize(2F, 2F);
 
 
-        this.gravity = 0.25F;
-        this.rCol = 1F;
-        this.gCol = 1F;
-        this.bCol = 1F;
+        this.gravity = 0.25f;
+        this.rCol = 1f;
+        this.gCol = 1f;
+        this.bCol = 1f;
     }
 
 
